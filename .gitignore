@@ -1,0 +1,14 @@
+__pycache__/
+runs/
+.ipynb_checkpoints/
+*.pt
+*.pth
+*.chkpt
+*.ckpt
+*.zip
+*.tar
+*.dat
+*.npy
+.vscode/
+*.jpeg
+*.jpg
