@@ -10,7 +10,6 @@ import network.fsb_hash_net as net1
 import network.fsb_hash_net_baseline as net2
 from network import load_model
 from configs import datasets_config as config
-from torch.distributions import Beta
 
 torch.backends.cudnn.enabled = True
 torch.backends.cudnn.deterministic = True
@@ -253,9 +252,9 @@ if __name__ == '__main__':
     generator_u = net2.Hash_Generator(embedding_size = 1024, device=device, out_embedding_size=512).eval().to(device)
     generator_u = load_model.load_pretrained_network(generator_u, load_model_path_u, device = device)
 
-    unprot_face_path = '/home/tiongsik/Python/conditional_biometrics/data/synthetic_images/IDiff-Face_samples/FSB-HashNet_generated/Main_Unprotected/'
-    prot_face_path = '/home/tiongsik/Python/conditional_biometrics/data/synthetic_images/IDiff-Face_samples/FSB-HashNet_generated/Main_Protected/'
-    real_face_path = '/home/tiongsik/Python/conditional_biometrics/data/visualization/security_db/real/face/'
+    prot_face_path = './data/non_invertibility/recon_protected/'
+    unprot_face_path = './data/non_invertibility/recon_unprotected/'
+    real_face_path = './data/non_invertibility/bona_fide/'
 
     real_vs_prot = prot_prot_verify(feature_extractor_p, generator_p, feature_extractor_p, generator_p, prot_path = prot_face_path, face_path = real_face_path, emb_size = embd_dim, root_drt = config.evaluation['verification'], device = device)
     real_vs_prot = copy.deepcopy(real_vs_prot)          

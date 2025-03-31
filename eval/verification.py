@@ -10,6 +10,7 @@ from data.data_loader import ConvertRGB2BGR, FixedImageStandard
 from network import load_model
 from configs import datasets_config as config
 import network.fsb_hash_net as net
+import network.fsb_hash_net_baseline as net_base
 
 torch.backends.cudnn.enabled = True
 torch.backends.cudnn.deterministic = True
@@ -319,14 +320,25 @@ def cm_verify(feature_extractor, generator, emb_size=1024, root_drt=config.evalu
         return eer_dict, fpr_dict, tpr_dict, auc_dict
 
 if __name__ == '__main__':
-    method = 'FSB-HashNet'
+    method = 'fsb_hashnet'
     eval_mode = 'roc'
     if eval_mode == 'roc':
-        create_folder(method + '_stolen')
-        create_folder(method + '_user')
+        create_folder(method + '/nohash')
+        create_folder(method + '/stolen')
+        create_folder(method + '/user')
     embd_dim = 512
     device = torch.device('cuda:0')
 
+    # Baseline Model (No Hash)
+    load_model_path_fe_base = './models/best_feature_extractor/FSB-HashNet_Baseline.pth'
+    feature_extractor_base = net_base.FSB_Hash_Net(embedding_size = 1024, do_prob = 0.0).eval().to(device)
+    feature_extractor_base = load_model.load_pretrained_network(feature_extractor_base, load_model_path_fe_base, device = device)
+    
+    load_model_path_base = load_model_path_fe_base.replace('best_feature_extractor', 'best_generator')
+    generator_base = net_base.Hash_Generator(embedding_size = 1024, device=device, out_embedding_size=512).eval().to(device)
+    generator_base = load_model.load_pretrained_network(generator_base, load_model_path_base, device = device)
+
+    # FSB-HashNet Model
     load_model_path_fe = './models/best_feature_extractor/FSB-HashNet.pth'
     feature_extractor = net.FSB_Hash_Net(embedding_size = 1024, do_prob = 0.0).eval().to(device)
     feature_extractor = load_model.load_pretrained_network(feature_extractor, load_model_path_fe, device = device)
@@ -335,79 +347,128 @@ if __name__ == '__main__':
     generator = net.Hash_Generator(embedding_size = 1024, device=device, out_embedding_size=512).eval().to(device)
     generator = load_model.load_pretrained_network(generator, load_model_path, device = device)
 
+
+    #### No Hash (Baseline Model)
+    print('No Hash \n')
+    nohash_peri_eer_dict, nohash_peri_fpr_dict, nohash_peri_tpr_dict, nohash_peri_auc_dict = im_verify(feature_extractor_base, generator_base, embd_dim, root_drt=config.evaluation['verification'], peri_flag=True, device=device, eval_mode=eval_mode, mode='nohash')
+    nohash_peri_eer_dict = get_avg(nohash_peri_eer_dict)
+    if eval_mode == 'roc':
+        nohash_peri_eer_dict = copy.deepcopy(nohash_peri_eer_dict)
+        nohash_peri_fpr_dict = copy.deepcopy(nohash_peri_fpr_dict)
+        nohash_peri_tpr_dict = copy.deepcopy(nohash_peri_tpr_dict)
+        nohash_peri_auc_dict = copy.deepcopy(nohash_peri_auc_dict)    
+        torch.save(nohash_peri_eer_dict, './data/roc/' + str(method) + '/nohash/peri/peri_eer_dict.pt')
+        torch.save(nohash_peri_fpr_dict, './data/roc/' + str(method) + '/nohash/peri/peri_fpr_dict.pt')
+        torch.save(nohash_peri_tpr_dict, './data/roc/' + str(method) + '/nohash/peri/peri_tpr_dict.pt')
+        torch.save(nohash_peri_auc_dict, './data/roc/' + str(method) + '/nohash/peri/peri_auc_dict.pt')
+    print('Average EER (Intra-Modal Periocular):', nohash_peri_eer_dict['avg'], '±', nohash_peri_eer_dict['std'])
+
+    nohash_face_eer_dict, nohash_face_fpr_dict, nohash_face_tpr_dict, nohash_face_auc_dict = im_verify(feature_extractor_base, generator_base, embd_dim, root_drt=config.evaluation['verification'], peri_flag=False, device=device, eval_mode=eval_mode, mode='nohash')
+    nohash_face_eer_dict = get_avg(nohash_face_eer_dict)
+    if eval_mode == 'roc':
+        nohash_face_eer_dict = copy.deepcopy(nohash_face_eer_dict)
+        nohash_face_fpr_dict = copy.deepcopy(nohash_face_fpr_dict)
+        nohash_face_tpr_dict = copy.deepcopy(nohash_face_tpr_dict)
+        nohash_face_auc_dict = copy.deepcopy(nohash_face_auc_dict)    
+        torch.save(nohash_face_eer_dict, './data/roc/' + str(method) + '/nohash/face/face_eer_dict.pt')
+        torch.save(nohash_face_fpr_dict, './data/roc/' + str(method) + '/nohash/face/face_fpr_dict.pt')
+        torch.save(nohash_face_tpr_dict, './data/roc/' + str(method) + '/nohash/face/face_tpr_dict.pt')
+        torch.save(nohash_face_auc_dict, './data/roc/' + str(method) + '/nohash/face/face_auc_dict.pt')
+    print('Average EER (Intra-Modal Face):', nohash_face_eer_dict['avg'], '±', nohash_face_eer_dict['std'])
+
+    nohash_cm_eer_dict, nohash_cm_fpr_dict, nohash_cm_tpr_dict, nohash_cm_auc_dict = cm_verify(feature_extractor_base, generator_base, emb_size=embd_dim, root_drt=config.evaluation['verification'], device=device, eval_mode=eval_mode, mode='nohash')
+    if eval_mode == 'roc':
+        nohash_cm_eer_dict = get_avg(nohash_cm_eer_dict) 
+        nohash_cm_eer_dict = copy.deepcopy(nohash_cm_eer_dict)
+        nohash_cm_fpr_dict = copy.deepcopy(nohash_cm_fpr_dict)
+        nohash_cm_tpr_dict = copy.deepcopy(nohash_cm_tpr_dict)
+        nohash_cm_auc_dict = copy.deepcopy(nohash_cm_auc_dict)    
+        torch.save(nohash_cm_eer_dict, './data/roc/' + str(method) + '/nohash/cm/cm_eer_dict.pt')
+        torch.save(nohash_cm_fpr_dict, './data/roc/' + str(method) + '/nohash/cm/cm_fpr_dict.pt')
+        torch.save(nohash_cm_tpr_dict, './data/roc/' + str(method) + '/nohash/cm/cm_tpr_dict.pt')
+        torch.save(nohash_cm_auc_dict, './data/roc/' + str(method) + '/nohash/cm/cm_auc_dict.pt')
+    print('Average EER (Cross-Modal):', nohash_cm_eer_dict['avg'], '±', nohash_cm_eer_dict['std'])
+
     
     #### Stolen Token Scenario
     print('Stolen Token Scenario \n')
     stolen_peri_eer_dict, stolen_peri_fpr_dict, stolen_peri_tpr_dict, stolen_peri_auc_dict = im_verify(feature_extractor, generator, embd_dim, root_drt=config.evaluation['verification'], peri_flag=True, device=device, eval_mode=eval_mode, mode='stolen')
-    stolen_peri_eer_dict = get_avg(stolen_peri_eer_dict) 
-    stolen_peri_eer_dict = copy.deepcopy(stolen_peri_eer_dict)
-    stolen_peri_fpr_dict = copy.deepcopy(stolen_peri_fpr_dict)
-    stolen_peri_tpr_dict = copy.deepcopy(stolen_peri_tpr_dict)
-    stolen_peri_auc_dict = copy.deepcopy(stolen_peri_auc_dict)    
-    torch.save(stolen_peri_eer_dict, './data/roc/' + str(method) + '_stolen/peri/peri_eer_dict.pt')
-    torch.save(stolen_peri_fpr_dict, './data/roc/' + str(method) + '_stolen/peri/peri_fpr_dict.pt')
-    torch.save(stolen_peri_tpr_dict, './data/roc/' + str(method) + '_stolen/peri/peri_tpr_dict.pt')
-    torch.save(stolen_peri_auc_dict, './data/roc/' + str(method) + '_stolen/peri/peri_auc_dict.pt')
+    stolen_peri_eer_dict = get_avg(stolen_peri_eer_dict)
+    if eval_mode == 'roc':
+        stolen_peri_eer_dict = copy.deepcopy(stolen_peri_eer_dict)
+        stolen_peri_fpr_dict = copy.deepcopy(stolen_peri_fpr_dict)
+        stolen_peri_tpr_dict = copy.deepcopy(stolen_peri_tpr_dict)
+        stolen_peri_auc_dict = copy.deepcopy(stolen_peri_auc_dict)    
+        torch.save(stolen_peri_eer_dict, './data/roc/' + str(method) + '/stolen/peri/peri_eer_dict.pt')
+        torch.save(stolen_peri_fpr_dict, './data/roc/' + str(method) + '/stolen/peri/peri_fpr_dict.pt')
+        torch.save(stolen_peri_tpr_dict, './data/roc/' + str(method) + '/stolen/peri/peri_tpr_dict.pt')
+        torch.save(stolen_peri_auc_dict, './data/roc/' + str(method) + '/stolen/peri/peri_auc_dict.pt')
     print('Average EER (Intra-Modal Periocular):', stolen_peri_eer_dict['avg'], '±', stolen_peri_eer_dict['std'])
 
     stolen_face_eer_dict, stolen_face_fpr_dict, stolen_face_tpr_dict, stolen_face_auc_dict = im_verify(feature_extractor, generator, embd_dim, root_drt=config.evaluation['verification'], peri_flag=False, device=device, eval_mode=eval_mode, mode='stolen')
-    stolen_face_eer_dict = get_avg(stolen_face_eer_dict) 
-    stolen_face_eer_dict = copy.deepcopy(stolen_face_eer_dict)
-    stolen_face_fpr_dict = copy.deepcopy(stolen_face_fpr_dict)
-    stolen_face_tpr_dict = copy.deepcopy(stolen_face_tpr_dict)
-    stolen_face_auc_dict = copy.deepcopy(stolen_face_auc_dict)    
-    torch.save(stolen_face_eer_dict, './data/roc/' + str(method) + '_stolen/face/face_eer_dict.pt')
-    torch.save(stolen_face_fpr_dict, './data/roc/' + str(method) + '_stolen/face/face_fpr_dict.pt')
-    torch.save(stolen_face_tpr_dict, './data/roc/' + str(method) + '_stolen/face/face_tpr_dict.pt')
-    torch.save(stolen_face_auc_dict, './data/roc/' + str(method) + '_stolen/face/face_auc_dict.pt')
+    stolen_face_eer_dict = get_avg(stolen_face_eer_dict)
+    if eval_mode == 'roc':
+        stolen_face_eer_dict = copy.deepcopy(stolen_face_eer_dict)
+        stolen_face_fpr_dict = copy.deepcopy(stolen_face_fpr_dict)
+        stolen_face_tpr_dict = copy.deepcopy(stolen_face_tpr_dict)
+        stolen_face_auc_dict = copy.deepcopy(stolen_face_auc_dict)    
+        torch.save(stolen_face_eer_dict, './data/roc/' + str(method) + '/stolen/face/face_eer_dict.pt')
+        torch.save(stolen_face_fpr_dict, './data/roc/' + str(method) + '/stolen/face/face_fpr_dict.pt')
+        torch.save(stolen_face_tpr_dict, './data/roc/' + str(method) + '/stolen/face/face_tpr_dict.pt')
+        torch.save(stolen_face_auc_dict, './data/roc/' + str(method) + '/stolen/face/face_auc_dict.pt')
     print('Average EER (Intra-Modal Face):', stolen_face_eer_dict['avg'], '±', stolen_face_eer_dict['std'])
 
-    stolen_cm_eer_dict, stolen_cm_fpr_dict, stolen_cm_tpr_dict, stolen_cm_auc_dict = cm_verify(feature_extractor, generator, emb_size=embd_dim, root_drt=config.evaluation['verification'], device=device, eval_mode=eval_mode, mode='stolen')    
-    stolen_cm_eer_dict = get_avg(stolen_cm_eer_dict) 
-    stolen_cm_eer_dict = copy.deepcopy(stolen_cm_eer_dict)
-    stolen_cm_fpr_dict = copy.deepcopy(stolen_cm_fpr_dict)
-    stolen_cm_tpr_dict = copy.deepcopy(stolen_cm_tpr_dict)
-    stolen_cm_auc_dict = copy.deepcopy(stolen_cm_auc_dict)    
-    torch.save(stolen_cm_eer_dict, './data/roc/' + str(method) + '_stolen/cm/cm_eer_dict.pt')
-    torch.save(stolen_cm_fpr_dict, './data/roc/' + str(method) + '_stolen/cm/cm_fpr_dict.pt')
-    torch.save(stolen_cm_tpr_dict, './data/roc/' + str(method) + '_stolen/cm/cm_tpr_dict.pt')
-    torch.save(stolen_cm_auc_dict, './data/roc/' + str(method) + '_stolen/cm/cm_auc_dict.pt')
+    stolen_cm_eer_dict, stolen_cm_fpr_dict, stolen_cm_tpr_dict, stolen_cm_auc_dict = cm_verify(feature_extractor, generator, emb_size=embd_dim, root_drt=config.evaluation['verification'], device=device, eval_mode=eval_mode, mode='stolen')
+    if eval_mode == 'roc':
+        stolen_cm_eer_dict = get_avg(stolen_cm_eer_dict) 
+        stolen_cm_eer_dict = copy.deepcopy(stolen_cm_eer_dict)
+        stolen_cm_fpr_dict = copy.deepcopy(stolen_cm_fpr_dict)
+        stolen_cm_tpr_dict = copy.deepcopy(stolen_cm_tpr_dict)
+        stolen_cm_auc_dict = copy.deepcopy(stolen_cm_auc_dict)    
+        torch.save(stolen_cm_eer_dict, './data/roc/' + str(method) + '/stolen/cm/cm_eer_dict.pt')
+        torch.save(stolen_cm_fpr_dict, './data/roc/' + str(method) + '/stolen/cm/cm_fpr_dict.pt')
+        torch.save(stolen_cm_tpr_dict, './data/roc/' + str(method) + '/stolen/cm/cm_tpr_dict.pt')
+        torch.save(stolen_cm_auc_dict, './data/roc/' + str(method) + '/stolen/cm/cm_auc_dict.pt')
     print('Average EER (Cross-Modal):', stolen_cm_eer_dict['avg'], '±', stolen_cm_eer_dict['std'])
+
 
     #### User-Specific Token Scenario
     print('User-Specific Token Scenario \n')
     user_peri_eer_dict, user_peri_fpr_dict, user_peri_tpr_dict, user_peri_auc_dict = im_verify(feature_extractor, generator, embd_dim, root_drt=config.evaluation['verification'], peri_flag=True, device=device, eval_mode=eval_mode, mode='user')
-    user_peri_eer_dict = get_avg(user_peri_eer_dict) 
-    user_peri_eer_dict = copy.deepcopy(user_peri_eer_dict)
-    user_peri_fpr_dict = copy.deepcopy(user_peri_fpr_dict)
-    user_peri_tpr_dict = copy.deepcopy(user_peri_tpr_dict)
-    user_peri_auc_dict = copy.deepcopy(user_peri_auc_dict)    
-    torch.save(user_peri_eer_dict, './data/roc/' + str(method) + '_user/peri/peri_eer_dict.pt')
-    torch.save(user_peri_fpr_dict, './data/roc/' + str(method) + '_user/peri/peri_fpr_dict.pt')
-    torch.save(user_peri_tpr_dict, './data/roc/' + str(method) + '_user/peri/peri_tpr_dict.pt')
-    torch.save(user_peri_auc_dict, './data/roc/' + str(method) + '_user/peri/peri_auc_dict.pt')
+    if eval_mode == 'roc':
+        user_peri_eer_dict = get_avg(user_peri_eer_dict) 
+        user_peri_eer_dict = copy.deepcopy(user_peri_eer_dict)
+        user_peri_fpr_dict = copy.deepcopy(user_peri_fpr_dict)
+        user_peri_tpr_dict = copy.deepcopy(user_peri_tpr_dict)
+        user_peri_auc_dict = copy.deepcopy(user_peri_auc_dict)    
+        torch.save(user_peri_eer_dict, './data/roc/' + str(method) + '/user/peri/peri_eer_dict.pt')
+        torch.save(user_peri_fpr_dict, './data/roc/' + str(method) + '/user/peri/peri_fpr_dict.pt')
+        torch.save(user_peri_tpr_dict, './data/roc/' + str(method) + '/user/peri/peri_tpr_dict.pt')
+        torch.save(user_peri_auc_dict, './data/roc/' + str(method) + '/user/peri/peri_auc_dict.pt')
     print('Average EER (Intra-Modal Periocular):', user_peri_eer_dict['avg'], '±', user_peri_eer_dict['std'])
 
     user_face_eer_dict, user_face_fpr_dict, user_face_tpr_dict, user_face_auc_dict = im_verify(feature_extractor, generator, embd_dim, root_drt=config.evaluation['verification'], peri_flag=False, device=device, eval_mode=eval_mode, mode='user')
-    user_face_eer_dict = get_avg(user_face_eer_dict) 
-    user_face_eer_dict = copy.deepcopy(user_face_eer_dict)
-    user_face_fpr_dict = copy.deepcopy(user_face_fpr_dict)
-    user_face_tpr_dict = copy.deepcopy(user_face_tpr_dict)
-    user_face_auc_dict = copy.deepcopy(user_face_auc_dict)    
-    torch.save(user_face_eer_dict, './data/roc/' + str(method) + '_user/face/face_eer_dict.pt')
-    torch.save(user_face_fpr_dict, './data/roc/' + str(method) + '_user/face/face_fpr_dict.pt')
-    torch.save(user_face_tpr_dict, './data/roc/' + str(method) + '_user/face/face_tpr_dict.pt')
-    torch.save(user_face_auc_dict, './data/roc/' + str(method) + '_user/face/face_auc_dict.pt')
+    if eval_mode == 'roc':
+        user_face_eer_dict = get_avg(user_face_eer_dict) 
+        user_face_eer_dict = copy.deepcopy(user_face_eer_dict)
+        user_face_fpr_dict = copy.deepcopy(user_face_fpr_dict)
+        user_face_tpr_dict = copy.deepcopy(user_face_tpr_dict)
+        user_face_auc_dict = copy.deepcopy(user_face_auc_dict)    
+        torch.save(user_face_eer_dict, './data/roc/' + str(method) + '/user/face/face_eer_dict.pt')
+        torch.save(user_face_fpr_dict, './data/roc/' + str(method) + '/user/face/face_fpr_dict.pt')
+        torch.save(user_face_tpr_dict, './data/roc/' + str(method) + '/user/face/face_tpr_dict.pt')
+        torch.save(user_face_auc_dict, './data/roc/' + str(method) + '/user/face/face_auc_dict.pt')
     print('Average EER (Intra-Modal Face):', user_face_eer_dict['avg'], '±', user_face_eer_dict['std'])
 
     user_cm_eer_dict, user_cm_fpr_dict, user_cm_tpr_dict, user_cm_auc_dict = cm_verify(feature_extractor, generator, emb_size=embd_dim, root_drt=config.evaluation['verification'], device=device, eval_mode=eval_mode, mode='user')    
-    user_cm_eer_dict = get_avg(user_cm_eer_dict) 
-    user_cm_eer_dict = copy.deepcopy(user_cm_eer_dict)
-    user_cm_fpr_dict = copy.deepcopy(user_cm_fpr_dict)
-    user_cm_tpr_dict = copy.deepcopy(user_cm_tpr_dict)
-    user_cm_auc_dict = copy.deepcopy(user_cm_auc_dict)    
-    torch.save(user_cm_eer_dict, './data/roc/' + str(method) + '_user/cm/cm_eer_dict.pt')
-    torch.save(user_cm_fpr_dict, './data/roc/' + str(method) + '_user/cm/cm_fpr_dict.pt')
-    torch.save(user_cm_tpr_dict, './data/roc/' + str(method) + '_user/cm/cm_tpr_dict.pt')
-    torch.save(user_cm_auc_dict, './data/roc/' + str(method) + '_user/cm/cm_auc_dict.pt')
+    if eval_mode == 'roc':
+        user_cm_eer_dict = get_avg(user_cm_eer_dict) 
+        user_cm_eer_dict = copy.deepcopy(user_cm_eer_dict)
+        user_cm_fpr_dict = copy.deepcopy(user_cm_fpr_dict)
+        user_cm_tpr_dict = copy.deepcopy(user_cm_tpr_dict)
+        user_cm_auc_dict = copy.deepcopy(user_cm_auc_dict)    
+        torch.save(user_cm_eer_dict, './data/roc/' + str(method) + '/user/cm/cm_eer_dict.pt')
+        torch.save(user_cm_fpr_dict, './data/roc/' + str(method) + '/user/cm/cm_fpr_dict.pt')
+        torch.save(user_cm_tpr_dict, './data/roc/' + str(method) + '/user/cm/cm_tpr_dict.pt')
+        torch.save(user_cm_auc_dict, './data/roc/' + str(method) + '/user/cm/cm_auc_dict.pt')
     print('Average EER (Cross-Modal):', user_cm_eer_dict['avg'], '±', user_cm_eer_dict['std'])

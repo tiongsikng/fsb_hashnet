@@ -108,7 +108,7 @@ def extract(feature_extractor_model, generator, data_path, device, modal, protec
 if __name__ == '__main__':
     device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
     protect_flag = True
-    method = 'FSB_HashNet'
+    method = 'fsb_hashnet'
 
     # get models: FSB-HashNet - protected, FSB-HashNet (Baseline) - unprotected
     load_model_path_fe_p = './models/best_feature_extractor/FSB-HashNet.pth'
@@ -125,9 +125,9 @@ if __name__ == '__main__':
     generator_u = net2.Hash_Generator(embedding_size = 1024, device=device, out_embedding_size=512).eval().to(device)
     generator_u = load_model.load_pretrained_network(generator_u, load_model_path_u, device = device)
 
-    protected = '/home/tiongsik/Python/conditional_biometrics/data/synthetic_images/IDiff-Face_samples/FSB-HashNet_generated/Main_Protected/'
-    unprotected = '/home/tiongsik/Python/conditional_biometrics/data/synthetic_images/IDiff-Face_samples/FSB-HashNet_generated/Main_Unprotected/'
-    face = '/home/tiongsik/Python/conditional_biometrics/data/visualization/security_db/real/face/'
+    protected = './data/non_invertibility/recon_protected/'
+    unprotected = './data/non_invertibility/recon_unprotected/'
+    face = './data/non_invertibility/bona_fide/'
     
     prot_fea, prot_label, prot_data_load, prot_data_set = extract(feature_extractor_p, generator_p, protected, device, 'face', True)
     unpro_fea, unpro_label, unpro_data_load, unpro_data_set = extract(feature_extractor_u, generator_u, unprotected, device, 'face', False)
@@ -136,6 +136,6 @@ if __name__ == '__main__':
 
     unprotected_vs_bonafide = inter_model(unpro_fea, unpro_label, faceu_fea, faceu_label, cls='intra')
     protected_vs_bonafide = inter_model(prot_fea, prot_label, facep_fea, facep_label, cls='intra')
-    figureFile = './analysis_privacy_security/' + str(method) + '/image_noninvertibility.pdf'
+    figureFile = './graphs/analysis_privacy_security/' + str(method) + '/image_noninvertibility.pdf'
 
     plot_hist_unprotected_protected(protected_vs_bonafide, unprotected_vs_bonafide, figureFile)

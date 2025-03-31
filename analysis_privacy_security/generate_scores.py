@@ -4,7 +4,6 @@ import numpy as np
 import os, sys
 # sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 sys.path.insert(0, os.path.abspath('.'))
-from sklearn.metrics import roc_curve
 import matplotlib.pyplot as plt
 from data import data_loader
 from configs import datasets_config as config
@@ -20,8 +19,8 @@ device = torch.device('cuda:0')
 def run():
     torch.multiprocessing.freeze_support()
     embd_dim = 512
-    method = 'FSB_HashNet'
-    folder = os.path.join('./analysis_privacy_security', method)
+    method = 'fsb_hashnet'
+    folder = os.path.join('./graphs/analysis_privacy_security', method)
     if not os.path.exists(folder):
         os.makedirs(folder)
 
@@ -87,7 +86,7 @@ def run():
                 genuine_scores = torch.cat((genuine_scores, torch.tensor(gen_score4).unsqueeze(0)))
                 genuine_scores = torch.cat((genuine_scores, torch.tensor(gen_score5).unsqueeze(0)))
 
-    np.savetxt('./analysis_privacy_security/' + str(method) + '/genuine.txt', genuine_scores)
+    np.savetxt('./graphs/analysis_privacy_security/' + str(method) + '/genuine.txt', genuine_scores)
 
     # # Imposter
     imposter_scores = torch.tensor([])
@@ -99,7 +98,7 @@ def run():
                 imp_score = distance.cosine(all_vectors_g1[k], all_vectors_g1[m])
                 imposter_scores = torch.cat((imposter_scores, torch.tensor(imp_score).unsqueeze(0)))
     
-    np.savetxt('./analysis_privacy_security/' + str(method) + '/imposter.txt', imposter_scores)    
+    np.savetxt('./graphs/analysis_privacy_security/' + str(method) + '/imposter.txt', imposter_scores)    
 
     print('Genuine & Imposter Done!')
 
@@ -132,7 +131,7 @@ def run():
                 mated_scores = torch.cat((mated_scores, torch.tensor(m_score9).unsqueeze(0)))
                 mated_scores = torch.cat((mated_scores, torch.tensor(m_score10).unsqueeze(0)))
 
-    np.savetxt('./analysis_privacy_security/' + str(method) + '/mated.txt', mated_scores)
+    np.savetxt('./graphs/analysis_privacy_security/' + str(method) + '/mated.txt', mated_scores)
 
     # Non-Mated score
     for k in tqdm(range(0, len(all_labels))):
@@ -142,7 +141,7 @@ def run():
                 nm_score1 = distance.cosine(all_vectors_g1[k], all_vectors_g2[m])
                 non_mated_scores = torch.cat((non_mated_scores, torch.tensor(nm_score1).unsqueeze(0)))
 
-    np.savetxt('./analysis_privacy_security/' + str(method) + '/nonmated.txt', non_mated_scores)
+    np.savetxt('./graphs/analysis_privacy_security/' + str(method) + '/nonmated.txt', non_mated_scores)
 
     print('Mated & Nonmated Done!')
 

@@ -106,10 +106,10 @@ def evaluate(matedScoresFile, nonMatedScoresFile, genuineScoresFile, figureFile)
 
 
 if __name__=='__main__':
-	method = 'FSB_HashNet'
+	method = 'fsb_hashnet'
 
-	matedScoresFile = './analysis_privacy_security/' + str(method) + '/mated.txt'
-	nonMatedScoresFile = './analysis_privacy_security/' + str(method) + '/nonmated.txt'
-	genuineScoresFile = './analysis_privacy_security/' + str(method) + '/genuine.txt'
-	figureFile = './analysis_privacy_security/' + str(method) + '/image_revocability.pdf'
+	matedScoresFile = './graphs/analysis_privacy_security/' + str(method) + '/mated.txt'
+	nonMatedScoresFile = './graphs/analysis_privacy_security/' + str(method) + '/nonmated.txt'
+	genuineScoresFile = './graphs/analysis_privacy_security/' + str(method) + '/genuine.txt'
+	figureFile = './graphs/analysis_privacy_security/' + str(method) + '/image_revocability.pdf'
 	evaluate(matedScoresFile, nonMatedScoresFile, genuineScoresFile, figureFile)

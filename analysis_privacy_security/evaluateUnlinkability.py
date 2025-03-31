@@ -102,9 +102,9 @@ def evaluate(matedScoresFile, nonMatedScoresFile, figureFile):
 	pylab.savefig(figureFile, bbox_inches='tight')
 
 if __name__=='__main__':
-	method = 'FSB_HashNet'
+	method = 'fsb_hashnet'
 
-	matedScoresFile = './analysis_privacy_security/' + str(method) + '/mated.txt'
-	nonMatedScoresFile = './analysis_privacy_security/' + str(method) + '/nonmated.txt'
-	figureFile = './analysis_privacy_security/' + str(method) + '/image_unlinkability.pdf'
+	matedScoresFile = './graphs/analysis_privacy_security/' + str(method) + '/mated.txt'
+	nonMatedScoresFile = './graphs/analysis_privacy_security/' + str(method) + '/nonmated.txt'
+	figureFile = './graphs/analysis_privacy_security/' + str(method) + '/image_unlinkability.pdf'
 	evaluate(matedScoresFile, nonMatedScoresFile, figureFile)

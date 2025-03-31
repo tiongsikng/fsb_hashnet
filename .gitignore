@@ -3,12 +3,5 @@ runs/
 .ipynb_checkpoints/
 *.pt
 *.pth
-*.chkpt
-*.ckpt
-*.zip
-*.tar
-*.dat
-*.npy
-.vscode/
-*.jpeg
-*.jpg
+/data/non_invertibility/**/*.jpg
+/graphs/**/*.txt
