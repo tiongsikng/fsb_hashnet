@@ -64,6 +64,6 @@ Ensure that datasets are located in `data` directory. Configure `datasets_config
 | HA-ViT [(Weights)](https://www.dropbox.com/scl/fo/crjb30rnxe95e6cdbolsk/AFT0bjj1-OzFuRTrictlAuQ?rlkey=rmpe6mriebl5l051pcfatog11&st=os5z2084&dl=0) | 11.39 | 10.29 | 13.14 |
 | GC<sup>2</sup>SA-Net [(Weights)](https://www.dropbox.com/scl/fo/j7tfsk61jz6dch8hyl1hp/h?rlkey=b22nw4ff5kelu5ivti7ioy1mr&dl=0) [(Paper)](https://ieeexplore.ieee.org/document/10418204) | 6.39 | 3.14 | 6.50 |
 | MFA-ViT [(Weights)](https://www.dropbox.com/scl/fo/1guujtv39cpktxk6dknve/ADx9ow2FbTTRMLFGtoKU-yM?rlkey=ooxn4uzruiwrmmdo5izbjuzyn&st=25c1acfu&dl=0) [(Paper)](https://ieeexplore.ieee.org/document/10656777) | 11.18 | 5.17 | 9.41 |
-| FSB-HashNet (No Hash)[(Weights)](https://www.dropbox.com/scl/fo/epr3bywp0pg5c4cdbpul0/AABkTipJEN0qoLsuLSjWCok?rlkey=hkm9rf7i24y9643j7otzc5sog&st=cvnx3nam&dl=0) | 7.10 | 3.26 | 6.77 |
-| FSB-HashNet (Stolen-Key)[(Weights)](https://www.dropbox.com/scl/fo/epr3bywp0pg5c4cdbpul0/AABkTipJEN0qoLsuLSjWCok?rlkey=hkm9rf7i24y9643j7otzc5sog&st=cvnx3nam&dl=0) | 9.18 | 4.75 | 9.77 |
-| FSB-HashNet (User-Specific)[(Weights)](https://www.dropbox.com/scl/fo/epr3bywp0pg5c4cdbpul0/AABkTipJEN0qoLsuLSjWCok?rlkey=hkm9rf7i24y9643j7otzc5sog&st=cvnx3nam&dl=0) | 4.24 | 2.11 | 5.26 |
+| FSB-HashNet (No Hash) [(Weights)](https://www.dropbox.com/scl/fo/epr3bywp0pg5c4cdbpul0/AABkTipJEN0qoLsuLSjWCok?rlkey=hkm9rf7i24y9643j7otzc5sog&st=cvnx3nam&dl=0) | 7.10 | 3.26 | 6.77 |
+| FSB-HashNet (Stolen-Key) [(Weights)](https://www.dropbox.com/scl/fo/epr3bywp0pg5c4cdbpul0/AABkTipJEN0qoLsuLSjWCok?rlkey=hkm9rf7i24y9643j7otzc5sog&st=cvnx3nam&dl=0) | 9.18 | 4.75 | 9.77 |
+| FSB-HashNet (User-Specific) [(Weights)](https://www.dropbox.com/scl/fo/epr3bywp0pg5c4cdbpul0/AABkTipJEN0qoLsuLSjWCok?rlkey=hkm9rf7i24y9643j7otzc5sog&st=cvnx3nam&dl=0) | 4.24 | 2.11 | 5.26 |
