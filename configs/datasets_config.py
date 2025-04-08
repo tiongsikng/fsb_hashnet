@@ -1,6 +1,6 @@
 # contains directories of database
 
-main_path = { 'main' : '/home/tiongsik/Python/conditional_biometrics/data' }
+main_path = { 'main' : '/home/Python/fsb_hashnet/data' }
 
 evaluation = { 'verification' : main_path['main'] }
 

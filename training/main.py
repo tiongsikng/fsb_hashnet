@@ -26,7 +26,7 @@ if __name__ == '__main__': # used for Windows freeze_support() issues
     import network.fsb_hash_net as net
     import train as train
     from network import load_model
-    import eval.verification as verification
+    import eval.roc_eval_verification as verification
     torch.multiprocessing.set_sharing_strategy('file_system')
     print("Imported.")
 
