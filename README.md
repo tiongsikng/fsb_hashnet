@@ -4,6 +4,10 @@
 <h2 align="center">
     Flexible Secure Biometrics: A Protected Modality-Invariant Face-Periocular Recognition System  
 </h2>
+<h3 align="center">
+    Published in Transaction of Information Forensics and Security (DOI: 10.1109/TIFS.2025.3559785) </br>
+    <a href="https://ieeexplore.ieee.org/document/10962269"> <img src="https://img.shields.io/badge/paper-link-blue.svg" alt="Paper Link"> </a>
+</h3>
 <br/>
 
 ![Network Architecture](FSB_HashNet.png?raw=true "FSB-HashNet")
@@ -34,12 +38,12 @@ Ensure that datasets are located in `data` directory. Configure `datasets_config
 | --- | --- | --- | --- |
 | <a href="https://github.com/tiongsikng/cb_net" target="_blank" rel="noopener noreferrer"><img src="https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.x/svgs/brands/github.svg" width="20" height="20">CB-Net</a> <a href="https://ieeexplore.ieee.org/abstract/document/10201879"> <img src="https://img.shields.io/badge/paper-link-blue.svg" alt="Paper Link"> </a> <br> <a href="https://www.dropbox.com/scl/fo/h5tz21big39wd0dzc70ou/AOabrddckd5cKUF3R2p3jw0?rlkey=l8fksw4ekat5jzcgn66jft6n3&st=t1rayruv&dl=0"> <img src="https://img.shields.io/badge/pre--trained%20weights-8A2BE2" alt="Pre-trained Weights"> </a> | 9.62 | 3.21 | 9.80 |
 | <a href="https://github.com/MIS-DevWorks/HA-ViT" target="_blank" rel="noopener noreferrer"><img src="https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.x/svgs/brands/github.svg" width="20" height="20">HA-ViT</a> <a href="https://ieeexplore.ieee.org/document/10068230"> <img src="https://img.shields.io/badge/paper-link-blue.svg" alt="Paper Link"> </a> <br> <a href="https://www.dropbox.com/scl/fo/crjb30rnxe95e6cdbolsk/AFT0bjj1-OzFuRTrictlAuQ?rlkey=rmpe6mriebl5l051pcfatog11&st=os5z2084&dl=0"> <img src="https://img.shields.io/badge/pre--trained%20weights-8A2BE2" alt="Pre-trained Weights"> </a> | 11.39 | 10.29 | 13.14 |
-| <a href="https://github.com/tiongsikng/gc2sa_net" target="_blank" rel="noopener noreferrer"><img src="https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.x/svgs/brands/github.svg" width="20" height="20">GC<sup>2</sup>SA-Net</a> <a href="https://ieeexplore.ieee.org/document/10418204"> <img src="https://img.shields.io/badge/paper-link-blue.svg" alt="Paper Link"> </a> <br> <a href="https://www.dropbox.com/scl/fo/j7tfsk61jz6dch8hyl1hp/h?rlkey=b22nw4ff5kelu5ivti7ioy1mr&dl=0"> <img src="https://img.shields.io/badge/pre--trained%20weights-8A2BE2" alt="Pre-trained Weights"> </a> | 6.39 | 3.14 | 6.50 |
-| <a href="https://github.com/MIS-DevWorks/FBR" target="_blank" rel="noopener noreferrer"><img src="https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.x/svgs/brands/github.svg" width="20" height="20">MFA-ViT</a> <a href="https://ieeexplore.ieee.org/document/10656777"> <img src="https://img.shields.io/badge/paper-link-blue.svg" alt="Paper Link"> </a> <br> <a href="https://www.dropbox.com/scl/fo/1guujtv39cpktxk6dknve/ADx9ow2FbTTRMLFGtoKU-yM?rlkey=ooxn4uzruiwrmmdo5izbjuzyn&st=25c1acfu&dl=0"> <img src="https://img.shields.io/badge/pre--trained%20weights-8A2BE2" alt="Pre-trained Weights"> </a> | 11.18 | 5.17 | 9.41 |
+| <a href="https://github.com/tiongsikng/gc2sa_net" target="_blank" rel="noopener noreferrer"><img src="https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.x/svgs/brands/github.svg" width="20" height="20">GC<sup>2</sup>SA-Net</a> <a href="https://ieeexplore.ieee.org/document/10418204"> <img src="https://img.shields.io/badge/paper-link-blue.svg" alt="Paper Link"> </a> <br> <a href="https://www.dropbox.com/scl/fo/z0sxpfbzmgp76erlcjxij/AIthSVT0Ju6VNeZupjtju1Y?rlkey=k8ivz5l1gv464e4dbxvfu40gc&e=1&st=0yt7hmr1&dl=0"> <img src="https://img.shields.io/badge/pre--trained%20weights-8A2BE2" alt="Pre-trained Weights"> </a> | 6.39 | 3.14 | 6.50 |
+| <a href="https://github.com/MIS-DevWorks/FBR" target="_blank" rel="noopener noreferrer"><img src="https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.x/svgs/brands/github.svg" width="20" height="20">MFA-ViT</a> <a href="https://ieeexplore.ieee.org/document/10656777"> <img src="https://img.shields.io/badge/paper-link-blue.svg" alt="Paper Link"> </a> <br> <a href="https://www.dropbox.com/scl/fo/1guujtv39cpktxk6dknve/ADx9ow2FbTTRMLFGtoKU-yM?rlkey=dzcmdbvjxglu509vgsuexq0ao&st=axkdc096&dl=0"> <img src="https://img.shields.io/badge/pre--trained%20weights-8A2BE2" alt="Pre-trained Weights"> </a> | 11.18 | 5.17 | 9.41 |
 | <a href="https://github.com/tiongsikng/ael_net" target="_blank" rel="noopener noreferrer"><img src="https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.x/svgs/brands/github.svg" width="20" height="20">AELNet</a> <a href="https://www.sciencedirect.com/science/article/pii/S1568494625003552"> <img src="https://img.shields.io/badge/paper-link-blue.svg" alt="Paper Link"> </a> <br> <a href="https://www.dropbox.com/scl/fo/pwc3gnu6vggrtbfwk9vw1/AITjo9pNnqVs8HXfOY2tSGY?rlkey=qujqfhtadnvcxp00zr75nj10m&st=famfx1am&dl=0"> <img src="https://img.shields.io/badge/pre--trained%20weights-8A2BE2" alt="Pre-trained Weights"> </a> | 6.65 | 3.19 | 6.32 |
-| <a href="https://github.com/tiongsikng/fsb_hashnet" target="_blank" rel="noopener noreferrer"><img src="https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.x/svgs/brands/github.svg" width="20" height="20">FSB-HashNet (No Hash)</a> <a href="https://www.dropbox.com/scl/fi/4ifobdj33k43xv45w9zjw/fsb_hashnet.zip?rlkey=i8gpmg9n6vezsofkciuk2zboe&st=icyz1nd5&dl=0"> <img src="https://img.shields.io/badge/pre--trained%20weights-8A2BE2" alt="Pre-trained Weights"> </a> | 7.10 | 3.26 | 6.77 |
-| <a href="https://github.com/tiongsikng/fsb_hashnet" target="_blank" rel="noopener noreferrer"><img src="https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.x/svgs/brands/github.svg" width="20" height="20">FSB-HashNet (Stolen-Key)</a> <a href="https://www.dropbox.com/scl/fi/4ifobdj33k43xv45w9zjw/fsb_hashnet.zip?rlkey=i8gpmg9n6vezsofkciuk2zboe&st=icyz1nd5&dl=0"> <img src="https://img.shields.io/badge/pre--trained%20weights-8A2BE2" alt="Pre-trained Weights"> </a> | 9.18 | 4.75 | 9.77 |
-| <a href="https://github.com/tiongsikng/fsb_hashnet" target="_blank" rel="noopener noreferrer"><img src="https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.x/svgs/brands/github.svg" width="20" height="20">FSB-HashNet (User-Specific)</a> <a href="https://www.dropbox.com/scl/fi/4ifobdj33k43xv45w9zjw/fsb_hashnet.zip?rlkey=i8gpmg9n6vezsofkciuk2zboe&st=icyz1nd5&dl=0"> <img src="https://img.shields.io/badge/pre--trained%20weights-8A2BE2" alt="Pre-trained Weights"> </a> | 4.24 | 2.11 | 5.26 |
+| <a href="https://github.com/tiongsikng/fsb_hashnet" target="_blank" rel="noopener noreferrer"><img src="https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.x/svgs/brands/github.svg" width="20" height="20">FSB-HashNet (No Hash)</a> <a href="https://ieeexplore.ieee.org/abstract/document/10962269"> <img src="https://img.shields.io/badge/paper-link-blue.svg" alt="Paper Link"> </a> <br> <a href="https://www.dropbox.com/scl/fi/4ifobdj33k43xv45w9zjw/fsb_hashnet.zip?rlkey=i8gpmg9n6vezsofkciuk2zboe&st=icyz1nd5&dl=0"> <img src="https://img.shields.io/badge/pre--trained%20weights-8A2BE2" alt="Pre-trained Weights"> </a> | 7.10 | 3.26 | 6.77 |
+| <a href="https://github.com/tiongsikng/fsb_hashnet" target="_blank" rel="noopener noreferrer"><img src="https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.x/svgs/brands/github.svg" width="20" height="20">FSB-HashNet (Stolen-Key)</a> <a href="https://ieeexplore.ieee.org/abstract/document/10962269"> <img src="https://img.shields.io/badge/paper-link-blue.svg" alt="Paper Link"> </a> <br> <a href="https://www.dropbox.com/scl/fi/4ifobdj33k43xv45w9zjw/fsb_hashnet.zip?rlkey=i8gpmg9n6vezsofkciuk2zboe&st=icyz1nd5&dl=0"> <img src="https://img.shields.io/badge/pre--trained%20weights-8A2BE2" alt="Pre-trained Weights"> </a> | 9.18 | 4.75 | 9.77 |
+| <a href="https://github.com/tiongsikng/fsb_hashnet" target="_blank" rel="noopener noreferrer"><img src="https://raw.githubusercontent.com/FortAwesome/Font-Awesome/6.x/svgs/brands/github.svg" width="20" height="20">FSB-HashNet (User-Specific)</a> <a href="https://ieeexplore.ieee.org/abstract/document/10962269"> <img src="https://img.shields.io/badge/paper-link-blue.svg" alt="Paper Link"> </a> <br> <a href="https://www.dropbox.com/scl/fi/4ifobdj33k43xv45w9zjw/fsb_hashnet.zip?rlkey=i8gpmg9n6vezsofkciuk2zboe&st=icyz1nd5&dl=0"> <img src="https://img.shields.io/badge/pre--trained%20weights-8A2BE2" alt="Pre-trained Weights"> </a> | 4.24 | 2.11 | 5.26 |
 
 ### The project directories are as follows:
 <pre>
@@ -77,3 +81,19 @@ Ensure that datasets are located in `data` directory. Configure `datasets_config
     ├── main.py - Main file to run for training. Settings and hyperparameters are based on the files in <code>configs</code> directory.
     └── train.py - Training file that is called from <code>main.py</code>. Gets batch of dataloader and contains criterion for loss back-propagation.
 </pre>
+
+#### Citation for this work:
+```
+@ARTICLE{fsb_hashnet,
+  author={Ng, Tiong-Sik and Kim, Jihyeon and Teoh, Andrew Beng Jin},
+  journal={IEEE Transactions on Information Forensics and Security}, 
+  title={Flexible Secure Biometrics: A Protected Modality-Invariant Face-Periocular Recognition System}, 
+  year={2025},
+  volume={20},
+  number={},
+  pages={4610-4621},
+  keywords={Face recognition;Feature extraction;Codes;Security;Protection;Generators;Transforms;Transformers;Training;Privacy;Face;periocular;cancellable biometrics;flexible deployment;modality-invariant},
+  doi={10.1109/TIFS.2025.3559785}}
+
+
+```
